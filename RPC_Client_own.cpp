@@ -72,24 +72,36 @@ int main() {
         int serverChoice;
         recv(clientSocket, (char*)&serverChoice, sizeof(serverChoice), 0);
 
-        std::cout << "»ó´ë¹æÀÌ ¼±ÅÃÇÑ °Í: ";
-        if (serverChoice == 0) {
-            std::cout << "¹¬";
-        }
-        else if (serverChoice == 1) {
-            std::cout << "Âî";
-        }
-        else if (serverChoice == 2) {
-            std::cout << "ºü";
-        }
-        std::cout << std::endl;
-
         char clientChoice;
         std::cout << "¹¬(0), Âî(1), ºü(2) Áß ÇÏ³ª¸¦ ¼±ÅÃÇÏ¼¼¿ä(½Â·ü (3), Á¾·á (4)): ";
         std::cin >> clientChoice;
 
         send(clientSocket, &clientChoice, sizeof(clientChoice), 0);
+        
+        std::cout << "¼­¹ö°¡ ¼±ÅÃÇÑ °Í: ";
+        if (serverChoice == 0) {
+            std::cout << "¹¬      ";
+        }
+        else if (serverChoice == 1) {
+            std::cout << "Âî      ";
+        }
+        else if (serverChoice == 2) {
+            std::cout << "ºü      ";
+        }
 
+        std::cout << "Å¬¶óÀÌ¾ðÆ®°¡ ¼±ÅÃÇÑ °Í: ";
+        if (clientChoice == '0') {
+            std::cout << "¹¬";
+        }
+        else if (clientChoice == '1') {
+            std::cout << "Âî";
+        }
+        else if (clientChoice == '2') {
+            std::cout << "ºü";
+        }
+        std::cout << std::endl;
+
+ 
         char result[50];
         recv(clientSocket, result, sizeof(result), 0);
         std::cout << "°á°ú: " << result << std::endl;
