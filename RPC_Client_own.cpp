@@ -77,36 +77,41 @@ int main() {
         std::cin >> clientChoice;
 
         send(clientSocket, &clientChoice, sizeof(clientChoice), 0);
+
+        if (clientChoice == '4') {
+            break;
+        }
+        else {
+            std::cout << "서버가 선택한 것: ";
+            if (serverChoice == 0) {
+                std::cout << "묵      ";
+            }
+            else if (serverChoice == 1) {
+                std::cout << "찌      ";
+            }
+            else if (serverChoice == 2) {
+                std::cout << "빠      ";
+            }
+
+            std::cout << "클라이언트가 선택한 것: ";
+            if (clientChoice == '0') {
+                std::cout << "묵";
+            }
+            else if (clientChoice == '1') {
+                std::cout << "찌";
+            }
+            else if (clientChoice == '2') {
+                std::cout << "빠";
+            }
+            std::cout << std::endl;
+
+
+            char result[50];
+            recv(clientSocket, result, sizeof(result), 0);
+            std::cout << "결과: " << result << std::endl;
+        }
         
-        std::cout << "서버가 선택한 것: ";
-        if (serverChoice == 0) {
-            std::cout << "묵      ";
-        }
-        else if (serverChoice == 1) {
-            std::cout << "찌      ";
-        }
-        else if (serverChoice == 2) {
-            std::cout << "빠      ";
-        }
-
-        std::cout << "클라이언트가 선택한 것: ";
-        if (clientChoice == '0') {
-            std::cout << "묵";
-        }
-        else if (clientChoice == '1') {
-            std::cout << "찌";
-        }
-        else if (clientChoice == '2') {
-            std::cout << "빠";
-        }
-        std::cout << std::endl;
-
- 
-        char result[50];
-        recv(clientSocket, result, sizeof(result), 0);
-        std::cout << "결과: " << result << std::endl;
-
-        char playAgain;
+        /*char playAgain;
         std::cout << "게임을 계속하시겠습니까? (y/n): ";
         std::cin >> playAgain;
 
@@ -114,7 +119,7 @@ int main() {
 
         if (playAgain != 'y') {
             break;
-        }
+        }*/
     }
 
     // 소켓 닫기
