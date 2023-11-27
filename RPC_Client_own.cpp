@@ -49,14 +49,14 @@ int main() {
 
         send(clientSocket, (char*)&clientHand, sizeof(clientHand), 0);
 
-        int result;
-        recv(clientSocket, (char*)&result, sizeof(result), 0);
+        int Att;
+        recv(clientSocket, (char*)&Att, sizeof(Att), 0);
 
-        if (result == 0) {
+        if (Att == 0) {
             std::cout << "무승부입니다." << std::endl;
             retry = 1;
         }
-        else if (result == 1) {
+        else if (Att == 1) {
             std::cout << "서버가 이겼습니다." << std::endl;
             retry = 0;
         }
@@ -79,13 +79,13 @@ int main() {
         else if (serverChoice == 1) {
             std::cout << "찌";
         }
-        else {
+        else if (serverChoice == 2) {
             std::cout << "빠";
         }
         std::cout << std::endl;
 
         char clientChoice;
-        std::cout << "묵(0), 찌(1), 빠(2) 중 하나를 선택하세요: ";
+        std::cout << "묵(0), 찌(1), 빠(2) 중 하나를 선택하세요(승률 (3), 종료 (4)): ";
         std::cin >> clientChoice;
 
         send(clientSocket, &clientChoice, sizeof(clientChoice), 0);
@@ -94,7 +94,7 @@ int main() {
         recv(clientSocket, result, sizeof(result), 0);
         std::cout << "결과: " << result << std::endl;
 
-        /*char playAgain;
+        char playAgain;
         std::cout << "게임을 계속하시겠습니까? (y/n): ";
         std::cin >> playAgain;
 
@@ -102,7 +102,7 @@ int main() {
 
         if (playAgain != 'y') {
             break;
-        }*/
+        }
     }
 
     // 소켓 닫기
