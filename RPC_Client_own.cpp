@@ -38,15 +38,12 @@ int main() {
 
     std::cout << "Connected to the server." << std::endl;
 
-    // 가위 바위 보 게임
     int retry = 1;
     int endrequest = 0;
     int game1end = 0, count = 0;
 
     while (true) {
-
         while (retry) {
-
             int clientHand, serverHand;
 
             std::cout << "가위 바위 보 게임을 시작합니다." << std::endl;
@@ -78,7 +75,6 @@ int main() {
             }
             std::cout << std::endl;
 
-
             int Att;
             recv(clientSocket, (char*)&Att, sizeof(Att), 0);
 
@@ -97,9 +93,7 @@ int main() {
         }
 
         game1end = 0;
-        // 묵찌빠 게임
         while (game1end == 0) {
-
             int serverChoice;
             recv(clientSocket, (char*)&serverChoice, sizeof(serverChoice), 0);
 
@@ -111,6 +105,13 @@ int main() {
 
             if (clientChoice == '4') {
                 endrequest = 1;
+                break;
+            }
+            else if (clientChoice == '3') {
+                double winrate;
+                recv(clientSocket, (char*)&winrate, sizeof(winrate), 0);
+                std::cout << "서버의 승률 : " << 1.0 - winrate << std::endl;
+                std::cout << "클라이언트의 승률 : " << winrate << std::endl;
                 break;
             }
             else {
@@ -149,9 +150,10 @@ int main() {
                 }
             }
         }
+
         if (endrequest == 1) {
             if (count > 0) {
-                double winrate;
+                double winrate = count / (double)(count + 1);
                 recv(clientSocket, (char*)&winrate, sizeof(winrate), 0);
                 std::cout << "서버의 승률 : " << 1.0 - winrate << std::endl;
                 std::cout << "클라이언트의 승률 : " << winrate << std::endl;
@@ -159,13 +161,8 @@ int main() {
             std::cout << "프로그램을 종료합니다" << std::endl;
             break;
         }
-        else {
-            continue;
-        }
     }
 
-
-    // 소켓 닫기
     closesocket(clientSocket);
     WSACleanup();
 
