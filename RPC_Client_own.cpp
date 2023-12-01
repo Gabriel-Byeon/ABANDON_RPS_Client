@@ -70,11 +70,24 @@ int main() {
             packet.choice_C = clientHand;
  
             send(clientSocket, (char*)&packet, sizeof(Packet), 0);
+            recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
+
             if (clientHand == END_REQUEST) {
                 packet.end = 1;
                 break;
             }
-            recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
+            else if (clientHand == WIN_REQUEST) {
+                if (count > 0) {
+                    
+                    recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
+                    std::cout << "서버의 승률 : " << 1.0 - packet.winrate << std::endl;
+                    std::cout << "클라이언트의 승률 : " << packet.winrate << std::endl;
+                    continue;
+                }
+                std::cout << "아직 한 판도 안하셨습니다." << std::endl;
+                continue;
+            }
+            
           
 
             std::cout << "서버 선택한 것: ";
@@ -132,9 +145,13 @@ int main() {
                 break;
             }
             else if (packet.choice_C == WIN_REQUEST) {
-                recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
-                std::cout << "서버의 승률 : " << 1.0 - packet.winrate << std::endl;
-                std::cout << "클라이언트의 승률 : " << packet.winrate << std::endl;
+                if (count > 0) {
+                    recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
+                    std::cout << "서버의 승률 : " << 1.0 - packet.winrate << std::endl;
+                    std::cout << "클라이언트의 승률 : " << packet.winrate << std::endl;
+                    continue;
+                }
+                std::cout << "아직 한 판도 안하셨습니다." << std::endl;
                 continue;
             }
             else {
@@ -170,10 +187,10 @@ int main() {
                 std::cout << "결과: " << packet.result_str << std::endl;
 
                 // 게임 결과가 "승리!" 혹은 "패배!"인 경우 다시 가위바위보 게임으로 돌아감
-                if (packet.result_str == "서버 패배! 클라이언트 승리!" || packet.result_str == "공수 교대") {
+                if (strcmp(packet.result_str, "서버 패배! 클라이언트 승리!") == 0 ||
+                    strcmp(packet.result_str, "서버 승리! 클라이언트 패배!") == 0) {
                     packet.Game_Choose = 0;
                     count++;
-                    
                 }
             }
         }
@@ -184,6 +201,8 @@ int main() {
                 std::cout << "서버의 승률 : " << 1.0 - packet.winrate << std::endl;
                 std::cout << "클라이언트의 승률 : " << packet.winrate << std::endl;
             }
+            else
+                std::cout << "한 판도 안하셔도 승률을 낼 수 없습니다." << std::endl;
             break;
         }
         else {
