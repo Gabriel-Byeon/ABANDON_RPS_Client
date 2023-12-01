@@ -80,8 +80,9 @@ int main() {
                 if (count > 0) {
                     
                     recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
-                    std::cout << std::endl << "¼­¹öÀÇ ½Â·ü : " << 1.0 - packet.winrate << std::endl;
-                    std::cout << std::endl << "Å¬¶óÀÌ¾ðÆ®ÀÇ ½Â·ü : " << packet.winrate << std::endl;
+                    std::cout << std::endl << "<<<<½Â·ü Ãâ·Â>>>>" << std::endl;
+                    std::cout << "¼­¹öÀÇ ½Â·ü : " << 1.0 - packet.winrate << std::endl;
+                    std::cout << "Å¬¶óÀÌ¾ðÆ®ÀÇ ½Â·ü : " << packet.winrate << std::endl;
                     continue;
                 }
                 std::cout << std::endl << "¾ÆÁ÷ ÇÑ ÆÇµµ ¾ÈÇÏ¼Ì½À´Ï´Ù." << std::endl;
@@ -147,6 +148,7 @@ int main() {
             else if (packet.choice_C == WIN_REQUEST) {
                 if (count > 0) {
                     recv(clientSocket, (char*)&packet, sizeof(Packet), 0);
+                    std::cout << std::endl << "<<<<½Â·ü Ãâ·Â>>>>" << std::endl;
                     std::cout << std::endl << "¼­¹öÀÇ ½Â·ü : " << 1.0 - packet.winrate << std::endl;
                     std::cout << std::endl << "Å¬¶óÀÌ¾ðÆ®ÀÇ ½Â·ü : " << packet.winrate << std::endl;
                     continue;
