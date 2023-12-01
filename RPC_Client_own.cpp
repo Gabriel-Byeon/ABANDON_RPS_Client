@@ -36,7 +36,7 @@ int main() {
         return -1;
     }
 
-    if (connect(clientSocket, reinterpret_cast<sockaddr*>(&serverAddress), sizeof(serverAddress)) == SOCKET_ERROR) {
+    if (connect(clientSocket, (sockaddr*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
         std::cerr << "Connection failed." << std::endl;
         closesocket(clientSocket);
         WSACleanup();
